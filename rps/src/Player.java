@@ -15,4 +15,6 @@ public abstract class Player {
     String getLastMove() {
         return lastMove;
     }
+
+    abstract String takeTurn();
 }

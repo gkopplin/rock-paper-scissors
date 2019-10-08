@@ -44,7 +44,7 @@ public class Session {
     }
 
     private void play() {
-        System.out.println("playing");
+        Game game = new Game();
     }
 
 
