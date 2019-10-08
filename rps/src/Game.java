@@ -32,8 +32,8 @@ public class Game {
 
     void handleTurn(Player playerOne, Player playerTwo) {
         String playerOneMove = playerOne.takeTurn();
-        System.out.println("Player One chose " + playerOneMove);
         String playerTwoMove = playerTwo.takeTurn();
+        System.out.println("Player One chose " + playerOneMove);
         System.out.println("Player Two chose " + playerTwoMove);
 
         if (playerOneMove.equals(playerTwoMove)) {
