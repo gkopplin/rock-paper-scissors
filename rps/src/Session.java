@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Session {
+class Session implements Handler {
     private ArrayList<String> gameHistory;
     private boolean quit;
 
@@ -20,12 +20,12 @@ class Session {
         while(!this.quit) {
             Session.displayMenu();
             String response = scanner.nextLine();
-            this.handleMenuInput(response);
+            this.handleInvalidInput(response);         // Wrapper for handling menu input
         }
     }
 
-    private void handleMenuInput(String response) {
-        switch (response) {
+    private void handleMenuInput(String response) throws InvalidInputException {
+        switch (response.toLowerCase()) {
             case "play":
                 this.play();
                 break;
@@ -36,8 +36,7 @@ class Session {
                 this.quit = true;
                 break;
             default:
-//            todo
-                break;
+                throw new InvalidInputException();
         }
     }
 
@@ -47,4 +46,12 @@ class Session {
     }
 
 
+    @Override
+    public void handleInvalidInput(String response) {
+        try {
+            this.handleMenuInput(response);
+        } catch (InvalidInputException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

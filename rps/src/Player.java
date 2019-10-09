@@ -1,7 +1,7 @@
-public abstract class Player {
+public abstract class Player implements Handler {
     private boolean winStatus;
     private int points;
-    private String lastMove;
+    protected String lastMove;
     protected String name;
 
 //  Getter/Setter Methods
@@ -21,5 +21,5 @@ public abstract class Player {
         this.name = name;
     }
 
-    abstract String takeTurn();
+    abstract void takeTurn() throws InvalidInputException;
 }

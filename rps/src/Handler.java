@@ -1,3 +1,3 @@
 public interface Handler {
-    void handleInvalidInput();
+    void handleInvalidInput(String response);
 }
