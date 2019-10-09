@@ -1,8 +1,15 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 class Game implements Handler {
     private boolean gameOver = false;
+    private String endGameInfo;
+
+    public String getEndGameInfo() {
+        return endGameInfo;
+    }
 
     void numPlayersPrompt(){
         Scanner scanner = new Scanner(System.in);
@@ -80,6 +87,10 @@ class Game implements Handler {
 
     private void endGame(String winner) {
         this.gameOver = true;
+        Date date = new Date( );
+        SimpleDateFormat format = new SimpleDateFormat ("E MM-dd-yyyy");
+        this.endGameInfo = "Date: " + format.format(date) + ", Winner: " + winner;
+
         System.out.println("---- " + winner + " won that round! ----");
         try {
             TimeUnit.SECONDS.sleep(2);

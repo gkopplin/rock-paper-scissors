@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Session implements Handler {
-    private ArrayList<String> gameHistory;
+    private ArrayList<String> gameHistory = new ArrayList<>();
     private boolean quit;
 
     private static void displayMenu() {
@@ -30,7 +30,11 @@ class Session implements Handler {
                 this.play();
                 break;
             case "history":
-                System.out.println(this.gameHistory);
+                if (this.gameHistory == null) {
+                    System.out.println("No games have been played yet");
+                } else {
+                    this.gameHistory.forEach(game -> System.out.println(game));
+                }
                 break;
             case "quit":
                 this.quit = true;
@@ -43,6 +47,7 @@ class Session implements Handler {
     private void play() {
         Game game = new Game();
         game.numPlayersPrompt();
+        this.gameHistory.add(0, game.getEndGameInfo());
     }
 
 
