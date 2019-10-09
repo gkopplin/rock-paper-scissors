@@ -1,6 +1,7 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
-public class Game {
+class Game {
     private boolean gameOver = false;
 
     void numPlayersPrompt(){
@@ -12,15 +13,17 @@ public class Game {
         this.playGame(response);
     }
 
-    void playGame(String response) {
-        Human playerOne = new Human();
+    private void playGame(String response) {
+        Human playerOne = new Human("Player One");
         Player playerTwo = null;
 
         switch (response) {
             case "1":
-                playerTwo = new Computer();
+                playerTwo = new Computer("Player Two");
+                break;
             case "2":
-                playerTwo = new Human();
+                playerTwo = new Human("Player Two");
+                break;
             default:
 //                todo
         }
@@ -30,13 +33,19 @@ public class Game {
         }
     }
 
-    void handleTurn(Player playerOne, Player playerTwo) {
+    private void handleTurn(Player playerOne, Player playerTwo) {
         String playerOneMove = playerOne.takeTurn();
         String playerTwoMove = playerTwo.takeTurn();
         System.out.println("Player One chose " + playerOneMove);
         System.out.println("Player Two chose " + playerTwoMove);
 
         if (playerOneMove.equals(playerTwoMove)) {
+            System.out.println("---- DRAW ----");
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return;
         }
 
@@ -64,9 +73,14 @@ public class Game {
 
     }
 
-    void endGame(String winner) {
+    private void endGame(String winner) {
         this.gameOver = true;
-        System.out.println(winner + " won that round!");
+        System.out.println("---- " + winner + " won that round! ----");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,4 +1,8 @@
 public class Computer extends Player {
+    Computer(String name) {
+        super(name);
+    }
+
     @Override
     String takeTurn() {
         double randomNum = Math.random();

@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Session {
+class Session {
     private ArrayList<String> gameHistory;
     private boolean quit;
 
-    public static void displayMenu() {
+    private static void displayMenu() {
         System.out.println("*************************");
         System.out.println(" ROCK - PAPER - SCISSORS ");
         System.out.println("*************************");
@@ -13,8 +13,6 @@ public class Session {
         System.out.println("Type \'play\' to start a new game");
         System.out.println("Type \'history\' to view match history");
         System.out.println("Type \'quit\' to exit");
-
-//        2 player or comp
     }
 
     void startSession() {
@@ -45,6 +43,7 @@ public class Session {
 
     private void play() {
         Game game = new Game();
+        game.numPlayersPrompt();
     }
 
 

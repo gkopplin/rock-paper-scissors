@@ -3,14 +3,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Human extends Player {
+    Human(String name) {
+        super(name);
+    }
+
     @Override
     String takeTurn() {
         boolean validInput = false;
         Scanner scanner = new Scanner(System.in);
-        String response = null; 
+        String response = null;
 
         while (!validInput) {
-            System.out.println("Select an option:");
+            System.out.println(this.name + ", select an option:");
             System.out.println("- Rock");
             System.out.println("- Paper");
             System.out.println("- Scissors");
@@ -21,6 +25,8 @@ public class Human extends Player {
 
             if (validValues.contains(response)) {
                 validInput = true;
+            } else {
+                System.out.println("---- Invalid input ----");
             }
 
         }
