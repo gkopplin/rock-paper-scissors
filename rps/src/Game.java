@@ -6,8 +6,10 @@ import java.util.concurrent.TimeUnit;
 class Game implements Handler {
     private boolean gameOver = false;
     private String endGameInfo;
+    private Human playerOne = new Human("Player One");
+    private Player playerTwo = null;
 
-    public String getEndGameInfo() {
+    String getEndGameInfo() {
         return endGameInfo;
     }
 
@@ -21,37 +23,46 @@ class Game implements Handler {
     }
 
     private void playGame(String response) throws InvalidInputException {
-        Human playerOne = new Human("Player One");
-        Player playerTwo = null;
+        this.playerOne.setWinStatus(false);
+        this.gameOver = false;
 
         switch (response) {
             case "1":
-                playerTwo = new Computer("Player Two");
+                if (this.playerTwo == null || this.playerTwo.getClass().getName().equals("Human")) {
+                    this.playerTwo = new Computer("Player Two");
+                } else {
+                    this.playerTwo.setWinStatus(false);
+                }
+
                 break;
             case "2":
-                playerTwo = new Human("Player Two");
+                if (this.playerTwo == null || this.playerTwo.getClass().getName().equals("Computer")) {
+                    this.playerTwo = new Human("Player Two");
+                } else {
+                    this.playerTwo.setWinStatus(false);
+                }
                 break;
             default:
                 throw new InvalidInputException();
         }
 
         while (!this.gameOver) {
-            this.handleTurn( playerOne, playerTwo);
+            this.handleTurn();
         }
     }
 
-    private void handleTurn(Player playerOne, Player playerTwo) {
-        playerOne.handleInvalidInput("");   // Wrapper for take turn
-        playerTwo.handleInvalidInput("");
+    private void handleTurn() {
+        this.playerOne.handleInvalidInput("");   // Wrapper for take turn
+        this.playerTwo.handleInvalidInput("");
 
-        if (playerOne.lastMove == null || playerTwo.lastMove == null) {
+        if (this.playerOne.lastMove == null || this.playerTwo.lastMove == null) {
             return;
         }
 
-        System.out.println("Player One chose " + playerOne.lastMove);
-        System.out.println("Player Two chose " + playerTwo.lastMove);
+        System.out.println("Player One chose " + this.playerOne.lastMove);
+        System.out.println("Player Two chose " + this.playerTwo.lastMove);
 
-        if (playerOne.lastMove.equals(playerTwo.lastMove)) {
+        if (this.playerOne.lastMove.equals(this.playerTwo.lastMove)) {
             System.out.println("---- DRAW ----");
             try {
                 TimeUnit.SECONDS.sleep(2);
@@ -61,37 +72,38 @@ class Game implements Handler {
             return;
         }
 
-        if (playerOne.lastMove.equals("Rock")) {
-            if (playerTwo.lastMove.equals("Scissors")) {
-                this.endGame("Player One");
+        if (this.playerOne.lastMove.equals("Rock")) {
+            if (this.playerTwo.lastMove.equals("Scissors")) {
+                this.endGame(this.playerOne);
             } else {
-                this.endGame("Player Two");
+                this.endGame(this.playerTwo );
             }
         }
-        else if (playerOne.lastMove.equals("Paper")) {
-            if (playerTwo.lastMove.equals("Rock")) {
-                this.endGame("Player One");
+        else if (this.playerOne.lastMove.equals("Paper")) {
+            if (this.playerTwo.lastMove.equals("Rock")) {
+                this.endGame(this.playerOne);
             } else {
-                this.endGame("Player Two");
+                this.endGame(this.playerTwo);
             }
         } else {
-            if (playerTwo.lastMove.equals("Paper")) {
-                this.endGame("Player One");
+            if (this.playerTwo.lastMove.equals("Paper")) {
+                this.endGame(this.playerOne);
             } else {
-                this.endGame("Player Two");
+                this.endGame(this.playerTwo);
             }
         }
-
-
     }
 
-    private void endGame(String winner) {
+    private void endGame(Player winner) {
         this.gameOver = true;
+        winner.setPoints(winner.getPoints() + 1);
+        winner.setWinStatus(true);
+
         Date date = new Date( );
         SimpleDateFormat format = new SimpleDateFormat ("E MM-dd-yyyy");
-        this.endGameInfo = "Date: " + format.format(date) + ", Winner: " + winner;
+        this.endGameInfo = "Date: " + format.format(date) + ", Winner: " + winner.getName();
 
-        System.out.println("---- " + winner + " won that round! ----");
+        System.out.println("---- " + winner.getName() + " won that round! ----");
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {

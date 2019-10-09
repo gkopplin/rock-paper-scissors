@@ -5,7 +5,7 @@ public abstract class Player implements Handler {
     protected String name;
 
 //  Getter/Setter Methods
-    boolean isWinStatus() {
+    boolean getWinStatus() {
         return winStatus;
     }
 
@@ -15,6 +15,18 @@ public abstract class Player implements Handler {
 
     String getLastMove() {
         return lastMove;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setWinStatus(boolean winStatus) {
+        this.winStatus = winStatus;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     Player (String name) {

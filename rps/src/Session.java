@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 class Session implements Handler {
     private ArrayList<String> gameHistory = new ArrayList<>();
     private boolean quit;
+    private Game game = new Game();
 
     private static void displayMenu() {
         System.out.println("*************************");
@@ -33,7 +35,13 @@ class Session implements Handler {
                 if (this.gameHistory == null) {
                     System.out.println("No games have been played yet");
                 } else {
-                    this.gameHistory.forEach(game -> System.out.println(game));
+                    this.gameHistory.forEach(System.out::println);
+                }
+
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 break;
             case "quit":
@@ -45,9 +53,8 @@ class Session implements Handler {
     }
 
     private void play() {
-        Game game = new Game();
-        game.numPlayersPrompt();
-        this.gameHistory.add(0, game.getEndGameInfo());
+        this.game.numPlayersPrompt();
+        this.gameHistory.add(0, this.game.getEndGameInfo());
     }
 
 
